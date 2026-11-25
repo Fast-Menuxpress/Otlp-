@@ -1,801 +1,102 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مطعم وجدي | مشويات على الفحم وأكل بيتي صحي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --charcoal:#15110D;
-    --charcoal-2:#211A14;
-    --ember:#E2632A;
-    --ember-2:#FF7A3D;
-    --saffron:#E3A73B;
-    --cream:#F6ECDC;
-    --cream-dim:#C9BCA6;
-    --herb:#6B8A54;
-    --herb-dim:#3C4E32;
-    --line: rgba(246,236,220,0.14);
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--charcoal);
-    color:var(--cream);
-    font-family:'Almarai', sans-serif;
-    overflow-x:hidden;
-    -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,h3,.display{ font-family:'Lalezar', sans-serif; font-weight:400; letter-spacing:.5px; }
-  img{max-width:100%; display:block;}
-  a{color:inherit;}
-  ::selection{background:var(--ember); color:var(--charcoal);}
-  button{ transition:transform .12s ease, background-color .15s ease, border-color .15s ease, opacity .15s ease;}
-  button:active{ transform:scale(.94);}
-
-  /* ===== Smoke texture background ===== */
-  .grain{
-    position:fixed; inset:0; pointer-events:none; z-index:2; opacity:.05; mix-blend-mode:overlay;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  /* ===== Top bar & Working Hours ===== */
-  .working-hours {
-    background: var(--ember);
-    color: var(--charcoal);
-    text-align: center;
-    padding: 6px;
-    font-weight: 800;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-    position: relative;
-    z-index: 51;
-  }
-  header{
-    position:sticky; top:0; z-index:50;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:14px 20px;
-    background:rgba(21,17,13,.9);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
-  }
-  .brand{ display:flex; align-items:center; gap:10px; }
-  .brand .mark{
-    width:42px; height:42px; border-radius:50%; overflow:hidden;
-    background:radial-gradient(circle at 35% 30%, var(--ember-2), var(--ember) 55%, #7a2f10 100%);
-    display:flex; align-items:center; justify-content:center;
-    font-family:'Lalezar', sans-serif; font-size:18px; color:var(--charcoal);
-    box-shadow:0 0 18px rgba(226,99,42,.55);
-  }
-  .brand-name{ font-family:'Lalezar', sans-serif; font-size:22px; line-height:1;}
-  .brand-sub{ font-size:11px; color:var(--cream-dim); letter-spacing:1px;}
-  .cart-btn{
-    position:relative;
-    background:var(--saffron); color:var(--charcoal);
-    border:none; border-radius:999px; padding:10px 18px;
-    font-family:'Almarai'; font-weight:800; font-size:14px;
-    display:flex; align-items:center; gap:8px; cursor:pointer;
-    transition:transform .15s ease, box-shadow .15s ease;
-  }
-  .cart-btn:hover{ transform:translateY(-1px); box-shadow:0 6px 18px rgba(227,167,59,.4);}
-  .cart-count{
-    background:var(--charcoal); color:var(--saffron);
-    border-radius:50%; width:22px; height:22px; font-size:12px;
-    display:flex; align-items:center; justify-content:center;
-  }
-
-  /* ===== Hero ===== */
-  .hero{
-    position:relative; min-height:85vh;
-    display:flex; align-items:flex-end;
-    background-size:cover; background-position:center 30%;
-  }
-  .hero::after{
-    content:''; position:absolute; inset:0;
-    background:
-      linear-gradient(180deg, rgba(21,17,13,.35) 0%, rgba(21,17,13,.55) 45%, var(--charcoal) 96%),
-      linear-gradient(90deg, rgba(21,17,13,.75) 0%, rgba(21,17,13,.15) 45%);
-  }
-  .hero-inner{ position:relative; z-index:2; padding:60px 24px 64px; max-width:720px;}
-  .eyebrow{
-    display:inline-flex; align-items:center; gap:8px;
-    font-size:13px; letter-spacing:2px; color:var(--saffron);
-    border:1px solid rgba(227,167,59,.4); border-radius:999px; padding:6px 14px;
-    margin-bottom:18px; background:rgba(227,167,59,.08);
-  }
-  .eyebrow .dot{width:6px; height:6px; border-radius:50%; background:var(--ember-2); box-shadow:0 0 8px var(--ember-2);}
-  .hero h1{ font-size:clamp(52px,11vw,96px); line-height:.95; color:var(--cream); text-shadow:0 6px 30px rgba(0,0,0,.5);}
-  .hero h1 span{ color:var(--ember-2);}
-  .hero p{ font-size:17px; color:var(--cream-dim); margin-top:16px; max-width:480px; line-height:1.8;}
-  .hero-ctas{ display:flex; gap:12px; margin-top:30px; flex-wrap:wrap;}
-  .btn-primary{
-    background:var(--ember); color:var(--charcoal); border:none; border-radius:10px; text-decoration:none;
-    padding:15px 26px; font-family:'Almarai'; font-weight:800; font-size:15px; cursor:pointer;
-    box-shadow:0 10px 28px rgba(226,99,42,.35);
-  }
-  .btn-ghost{
-    background:transparent; border:1px solid var(--line); color:var(--cream); text-decoration:none;
-    border-radius:10px; padding:15px 26px; font-family:'Almarai'; font-weight:700; font-size:15px; cursor:pointer;
-  }
-
-  /* ===== Photo Gallery & Banners ===== */
-  .photo-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 12px;
-    margin: 20px 0 40px;
-  }
-  .photo-gallery img {
-    width: 100%;
-    height: 140px;
-    object-fit: cover;
-    border-radius: 12px;
-    border: 1px solid var(--line);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    transition: transform 0.3s;
-  }
-  .photo-gallery img:hover {
-    transform: scale(1.05);
-    border-color: var(--ember);
-  }
-  
-  .category-banner {
-    width: 100%;
-    height: 160px;
-    border-radius: 14px;
-    overflow: hidden;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-    border: 1px solid var(--line);
-    position: relative;
-  }
-  .category-banner img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  /* ===== Skewer divider ===== */
-  .skewer{ display:flex; align-items:center; gap:10px; margin:0 auto; max-width:1100px; padding:0 24px; }
-  .skewer .stick{ flex:1; height:2px; background:linear-gradient(90deg, transparent, var(--ember) 15%, var(--ember) 85%, transparent);}
-  .skewer .chunk{ width:9px; height:9px; background:var(--saffron); transform:rotate(45deg); box-shadow:0 0 6px rgba(227,167,59,.6);}
-
-  /* ===== Section shell ===== */
-  section.menu{ padding:50px 24px 30px; max-width:1180px; margin:0 auto;}
-  .sec-head{ text-align:center; margin-bottom:30px;}
-  .sec-head .eyebrow{margin-bottom:14px;}
-  .sec-head h2{ font-size:clamp(30px,6vw,44px);}
-
-  .grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:22px; margin-top:20px;}
-
-  .card{
-    background:var(--charcoal-2); border:1px solid var(--line); border-radius:16px; overflow:hidden;
-    display:flex; flex-direction:column; transition:transform .2s ease, border-color .2s ease;
-  }
-  .card:hover{ transform:translateY(-4px); border-color:rgba(226,99,42,.4);}
-  .card .thumb{ position:relative; aspect-ratio:4/3; overflow:hidden;}
-  .card .thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease;}
-  .card:hover .thumb img{ transform:scale(1.06);}
-  .card-body{ padding:18px 18px 20px; display:flex; flex-direction:column; gap:10px; flex:1;}
-  .card-body h3{ font-size:22px; color:var(--cream);}
-  .card-body .desc{ font-size:13px; color:var(--cream-dim); line-height:1.7; min-height:36px;}
-
-  .sizes{ display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;}
-  .size-opt{
-    border:1px solid var(--line); border-radius:8px; padding:8px 10px; font-size:12px;
-    background:transparent; color:var(--cream); cursor:pointer; text-align:center; flex:1; min-width:64px;
-    font-family:'Almarai'; transition:.15s;
-  }
-  .size-opt b{ display:block; color:var(--saffron); font-size:13px; margin-top:2px;}
-  .size-opt.active{ background:var(--ember); border-color:var(--ember); color:var(--charcoal);}
-  .size-opt.active b{ color:var(--charcoal);}
-
-  .group-title{
-    display:flex; align-items:center; gap:10px; font-size:20px; color:var(--saffron);
-    letter-spacing:1px; margin:50px 0 20px; font-family:'Lalezar', sans-serif;
-  }
-  .group-title::after{ content:''; flex:1; height:1px; background:var(--line);}
-  
-  /* ===== Row-list style (Interactive) ===== */
-  .row-list{ border:1px solid var(--line); border-radius:14px; overflow:hidden; background:rgba(255,255,255,.015);}
-  .row-item{
-    display:flex; align-items:center; justify-content:space-between; gap:14px;
-    padding:18px 18px; border-bottom:1px solid var(--line); flex-wrap:wrap;
-  }
-  .row-item:last-child{ border-bottom:none;}
-  .row-item:hover{ background:rgba(226,99,42,.05);}
-  .row-name{ font-size:16px; color:var(--cream); font-weight:700;}
-  .row-name small{ display:block; color:var(--cream-dim); font-size:13px; font-weight:400; margin-top:4px; line-height:1.6;}
-  .row-chips{ display:flex; gap:10px; flex-wrap:wrap;}
-  
-  .row-chip{
-    background:rgba(255,255,255,0.05); border:1px solid var(--line); color:var(--cream);
-    border-radius:8px; padding:10px 14px; font-family:'Almarai'; font-size:13px; cursor:pointer;
-    display:flex; align-items:center; gap:8px; transition:0.2s; font-weight: bold;
-  }
-  .row-chip b{ font-family:'Lalezar'; color:var(--saffron); font-size:16px; font-weight: 400;}
-  .row-chip:hover{ border-color:var(--ember); background:var(--ember); color:var(--charcoal);}
-  .row-chip:hover b{ color:var(--charcoal); }
-  
-  .row-chip.flash{ background:var(--herb); border-color:var(--herb); color:#fff;}
-  .row-chip.flash b{ color:#fff;}
-  .row-chip.flash:hover{ background:#5a7546;}
-
-  .note-tag{
-    display:inline-block; font-size:11px; color:var(--charcoal); background:var(--saffron);
-    border-radius:6px; padding:2px 8px; margin-right:8px; font-weight:800; vertical-align:middle;
-  }
-
-  /* ===== Cart drawer ===== */
-  .overlay{
-    position:fixed; inset:0; background:rgba(10,8,6,.7); backdrop-filter:blur(3px);
-    opacity:0; pointer-events:none; transition:opacity .3s ease; z-index:90;
-  }
-  .overlay.open{ opacity:1; pointer-events:auto;}
-  .drawer{
-    position:fixed; top:0; bottom:0; left:0; width:min(420px,100vw);
-    background:var(--charcoal-2); border-right:1px solid var(--line);
-    z-index:95; transform:translateX(-105%); transition:transform .3s cubic-bezier(.4,0,.2,1);
-    display:flex; flex-direction:column; box-shadow: 10px 0 30px rgba(0,0,0,0.5);
-  }
-  .drawer.open{ transform:translateX(0);}
-  .drawer-head{ padding:20px; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; background: var(--charcoal);}
-  .drawer-head h3{ font-size:24px; color: var(--ember); margin:0;}
-  .close-btn{ background:none; border:none; color:var(--cream); font-size:28px; cursor:pointer; line-height:1;}
-  
-  .drawer-items{ flex:1; overflow-y:auto; padding:10px 20px;}
-  .empty-cart{ text-align:center; color:var(--cream-dim); padding:60px 20px; font-size:16px; line-height:1.9;}
-  
-  .cart-item{ display:flex; flex-direction: column; gap:10px; padding:16px 0; border-bottom:1px dashed rgba(246,236,220,0.1);}
-  .ci-info{ display:flex; justify-content: space-between; align-items: flex-start;}
-  .ci-info h4{ font-size:15px; font-weight:800; color:var(--cream); margin:0; line-height: 1.4;}
-  .ci-price{ font-family:'Lalezar'; color:var(--saffron); font-size:18px;}
-  .ci-controls{ display:flex; align-items:center; gap:12px;}
-  .qty-btn{ width:28px; height:28px; border-radius:6px; border:1px solid var(--line); background:var(--charcoal); color:var(--cream); cursor:pointer; font-size:16px; font-weight:bold;}
-  .qty-btn:hover{ background:var(--ember); color:var(--charcoal); border-color:var(--ember);}
-  .remove-x{ margin-right:auto; color:#ff4d4d; background:none; border:none; cursor:pointer; font-size:14px; font-weight: bold;}
-  
-  .drawer-foot{ padding:20px; border-top:1px solid var(--line); background: var(--charcoal);}
-  .total-row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; font-size:15px; color:var(--cream-dim);}
-  .total-row.grand{ font-size:18px; color:var(--cream); margin-bottom:16px; margin-top: 10px; border-top: 1px solid var(--line); padding-top: 10px;}
-  .total-row.grand b{ font-family:'Lalezar'; color:var(--saffron); font-size:26px;}
-  
-  .field{ margin-bottom:12px;}
-  .field input{
-    width:100%; background:var(--charcoal-2); border:1px solid var(--line); border-radius:8px;
-    padding:12px 14px; color:var(--cream); font-family:'Almarai'; font-size:14px; outline: none;
-  }
-  .field input:focus{ border-color: var(--saffron); }
-  
-  .wa-btn{
-    width:100%; background:#25D366; color:#fff; border:none; border-radius:10px; padding:16px;
-    font-family:'Almarai'; font-weight:800; font-size:16px; cursor:pointer; margin-top:10px;
-    display:flex; align-items:center; justify-content:center; gap:8px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-  }
-  .wa-btn:hover{ background:#1EBE5D;}
-
-  /* Floating mobile cart */
-  .floating-cart{
-    position:fixed; bottom:22px; left:22px; z-index:60;
-    background:var(--saffron); color:var(--charcoal); border:none; border-radius:50%;
-    width:65px; height:65px; box-shadow:0 10px 26px rgba(227,167,59,.5); cursor:pointer;
-    display:flex; align-items:center; justify-content:center; font-size:28px;
-    transition: transform 0.2s;
-  }
-  .floating-cart:active { transform: scale(0.9); }
-  .floating-cart .cart-count{ position:absolute; top:-2px; left:-2px; background:#ff4d4d; color:#fff; border: 2px solid var(--charcoal);}
-  @media(min-width:769px){ .floating-cart{display:none;} }
-
-  /* ===== Footer ===== */
-  footer{ margin-top:60px; border-top:1px solid var(--line); padding:50px 24px 30px; background: var(--charcoal-2);}
-  .foot-grid{ max-width:1100px; margin:0 auto; display:flex; flex-wrap:wrap; justify-content:space-between; gap:30px;}
-  .foot-col h4{ font-size:16px; color:var(--saffron); letter-spacing:1px; margin-bottom:15px; font-family:'Lalezar', sans-serif;}
-  .foot-col p{ font-size:14px; color:var(--cream-dim); line-height:2;}
-  .foot-bottom{ text-align:center; margin-top:40px; font-size:13px; color:var(--cream-dim); opacity:.7;}
-
-</style>
-</head>
-<body>
-
-<div class="grain"></div>
-
-<div class="working-hours">🕛 مواعيد العمل يومياً: من 12 ظهراً حتى 4 فجراً 🕓</div>
-
-<header>
-  <div class="brand">
-    <div class="mark">وجدي</div>
-    <div>
-      <div class="brand-name">مطعم وجدي</div>
-      <div class="brand-sub">مشويات &amp; أكل بيتي صحي</div>
-    </div>
-  </div>
-  <button class="cart-btn" onclick="openCart()">
-    🛒 السلة <span class="cart-count" id="cartCountTop">0</span>
-  </button>
-</header>
-
-<section class="hero" id="heroSection">
-  <div class="hero-inner">
-    <div class="eyebrow"><span class="dot"></span> عالفحم من قلب الحتة</div>
-    <h1>مطعم <span>وجدي</span></h1>
-    <p>أشهى المشويات الطازجة على الفحم، تتبيلة مخصوصة وأكل بيتي صحي. اضغط على السعر لإضافة الصنف لسلتك مباشرة!</p>
-    <div class="hero-ctas">
-      <a href="#sandwiches" class="btn-primary">اطلب ساندوتشاتك الآن 🍔</a>
-      <a href="#menu-start" class="btn-ghost">تصفح المنيو كامل 📜</a>
-    </div>
-  </div>
-</section>
-
-<div class="skewer" id="menu-start"><div class="stick"></div><div class="chunk"></div><div class="stick"></div></div>
-
-<section class="menu">
-  
-  <!-- Gallery Section -->
-  <div class="sec-head">
-    <div class="eyebrow"><span class="dot"></span> طازة من على الفحم</div>
-    <h2>عظمة مطعم وجدي بالصور 📸</h2>
-  </div>
-  
-  <div class="photo-gallery">
-    <img src="mixed-grill.jpg" alt="مشويات وجدي">
-    <img src="wagdi-platter.jpg" alt="صينية مشويات">
-    <img src="wagdi-platter (1).jpg" alt="صينية وجدي">
-  </div>
-
-  <div class="group-title">قسم الفراخ المشوية</div>
-  <div class="grid">
-    <!-- Chicken Shish -->
-    <div class="card">
-      <div class="thumb"><img src="wagdi-platter (2).jpg" alt="فراخ شيش"></div>
-      <div class="card-body">
-        <h3>الفرخة شيش</h3>
-        <div class="desc">فراخ شيش بتتبيلة وجدي، (وزن فوق الـ 2 كيلو).</div>
-        <div class="sizes">
-          <button class="size-opt" onclick="addToCart('ربع فراخ ورك شيش', 75)">ربع ورك <b>٧٥ ج</b></button>
-          <button class="size-opt" onclick="addToCart('ربع فراخ صدر شيش', 85)">ربع صدر <b>٨٥ ج</b></button>
-          <button class="size-opt" onclick="addToCart('نص فرخة شيش', 150)">نص فرخة <b>١٥٠ ج</b></button>
-          <button class="size-opt active" onclick="addToCart('الفرخة شيش كاملة', 300)">فرخة كاملة <b>٣٠٠ ج</b></button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Chicken Tikka -->
-    <div class="card">
-      <div class="thumb"><img src="mixed-grill.jpg" alt="فراخ تكا"></div>
-      <div class="card-body">
-        <h3>فرخة تكا</h3>
-        <div class="desc">مشوية على الفحم مع الخلطة السرية والأرز.</div>
-        <div class="sizes">
-          <button class="size-opt" onclick="addToCart('ربع فراخ ورك تكا', 85)">ربع ورك <b>٨٥ ج</b></button>
-          <button class="size-opt" onclick="addToCart('ربع فراخ صدر تكا بالأرز', 100)">ربع صدر بأرز <b>١٠٠ ج</b></button>
-          <button class="size-opt" onclick="addToCart('نص فرخة تكا بالخلطة والأرز', 170)">نص بأرز <b>١٧٠ ج</b></button>
-          <button class="size-opt active" onclick="addToCart('فرخة تكا بالخلطة والأرز', 350)">فرخة كاملة <b>٣٥٠ ج</b></button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="sandwiches" class="group-title">الساندوتشات (اضغط على الحجم للطلب)</div>
-  <div class="category-banner">
-    <img src="wagdi-platter.jpg" alt="ساندوتشات">
-  </div>
-  <div class="row-list">
-    <div class="row-item">
-      <div class="row-name">ساندوتش كفتة كندوز <small>بلدي 100% عالفحم</small></div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('ساندوتش كفتة كندوز (صغير)', 20)">صغير <b>٢٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('ساندوتش كفتة كندوز (وسط)', 30)">وسط <b>٣٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('ساندوتش كفتة كندوز (كبير)', 40)">كبير <b>٤٠ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name">ساندوتش كفتة ضاني</div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('ساندوتش كفتة ضاني (وسط)', 40)">وسط <b>٤٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('ساندوتش كفتة ضاني (كبير)', 60)">كبير <b>٦٠ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name">ساندوتش الحواوشي <small>العيش البلدي المقرمش</small></div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('ساندوتش حواوشي (عادي)', 20)">عادي <b>٢٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('ساندوتش حواوشي (كبير)', 30)">كبير <b>٣٠ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name">حواوشي ميكس <small>(فراخ، طرب، جبنة)</small></div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('حواوشي ميكس (120 جرام)', 35)">١٢٠ جرام <b>٣٥ ج</b></button>
-        <button class="row-chip flash" onclick="addToCart('حواوشي سوبر ميكس (180 جرام)', 50)">سوبر ١٨٠ جـ <b>٥٠ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name">ساندوتش الكبدة <small>اختر الإضافة المفضلة</small></div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('ساندوتش كبدة', 20)">عادي <b>٢٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('ساندوتش كبدة بالطرب', 25)">بالطرب <b>٢٥ ج</b></button>
-        <button class="row-chip" onclick="addToCart('ساندوتش كبدة مشوية', 25)">مشوية <b>٢٥ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name">ساندوتش الطرب</div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('ساندوتش طرب', 35)">طرب ضاني <b>٣٥ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name">أطباق الأرز <small>أرز مبهر ولذيذ</small></div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('طبق أرز (صغير)', 20)">صغير <b>٢٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('طبق أرز (وسط)', 30)">وسط <b>٣٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('طبق أرز (كبير)', 40)">كبير <b>٤٠ ج</b></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="group-title">اللحوم المشوية (استيك وكباب)</div>
-  <div class="category-banner">
-    <img src="wagdi-platter (1).jpg" alt="لحوم مشوية">
-  </div>
-  <div class="row-list">
-    <div class="row-item">
-      <div class="row-name">لحمة استيك <small>مشوية على الفحم</small></div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('ربع لحمة استيك', 190)">ربع كيلو <b>١٩٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('نص لحمة استيك', 380)">نص كيلو <b>٣٨٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('كيلو لحمة استيك', 750)">كيلو <b>٧٥٠ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name">الكباب الضاني</div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('ربع كباب ضاني', 225)">ربع كيلو <b>٢٢٥ ج</b></button>
-        <button class="row-chip" onclick="addToCart('نص كباب ضاني', 450)">نص كيلو <b>٤٥٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('كيلو كباب ضاني', 900)">كيلو <b>٩٠٠ ج</b></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="group-title">الكفتة والطرب (بالوزن)</div>
-  <div class="category-banner">
-    <img src="wagdi-platter (2).jpg" alt="كفتة">
-  </div>
-  <div class="row-list">
-    <div class="row-item">
-      <div class="row-name">كفتة وجدي <small>كفتة بلدي بتتبيلتنا الخاصة</small></div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('تمن كفتة وجدي', 40)">تمن <b>٤٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('ربع كفتة وجدي', 80)">ربع <b>٨٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('تلت كفتة وجدي', 120)">تلت <b>١٢٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('نص كفتة وجدي', 160)">نص <b>١٦٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('كيلو كفتة وجدي', 320)">كيلو <b>٣٢٠ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name">كفتة ضاني</div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('ربع كفتة ضاني', 110)">ربع <b>١١٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('تلت كفتة ضاني', 170)">تلت <b>١٧٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('نص كفتة ضاني', 220)">نص <b>٢٢٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('كيلو كفتة ضاني', 440)">كيلو <b>٤٤٠ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name">الطرب الضاني</div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('تمن طرب ضاني', 65)">تمن <b>٦٥ ج</b></button>
-        <button class="row-chip" onclick="addToCart('ربع طرب ضاني', 125)">ربع <b>١٢٥ ج</b></button>
-        <button class="row-chip" onclick="addToCart('تلت طرب ضاني', 190)">تلت <b>١٩٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('نص طرب ضاني', 250)">نص <b>٢٥٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('كيلو طرب ضاني', 500)">كيلو <b>٥٠٠ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name">مشكل (كفتة وجدي وطرب ضاني)</div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('ربع مشكل كفتة وطرب', 110)">ربع <b>١١٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('نص مشكل كفتة وطرب', 210)">نص <b>٢١٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('كيلو مشكل كفتة وطرب', 420)">كيلو <b>٤٢٠ ج</b></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="group-title">الوجبات الشاملة</div>
-  <div class="row-list">
-    <div class="row-item">
-      <div class="row-name">وجبة التوفير <small>ربع كفتة وجدي (أو ربع ورك) + أرز</small></div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('وجبة التوفير (كفتة وأرز)', 90)">كفتة <b>٩٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('وجبة التوفير (ورك وأرز)', 90)">فراخ <b>٩٠ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name">وجبة التميز <small>ربع فراخ ورك + تمن كفتة وجدي + أرز</small></div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('وجبة التميز', 120)">إضافة <b>١٢٠ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name">وجبة الإكسترا <small>ربع فراخ ورك + تمن كفتة + ١ حواوشي ميكس</small></div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('وجبة الإكسترا', 160)">إضافة <b>١٦٠ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name">وجبة الجامبو <small>ربع فراخ ورك + تمن كفتة + تمن طرب + حواوشي ميكس + أرز</small></div>
-      <div class="row-chips">
-        <button class="row-chip flash" onclick="addToCart('وجبة الجامبو', 220)">إضافة <b>٢٢٠ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name"><span class="note-tag">تنبيه</span> <small>إذا أردت تبديل الورك بصدر في أي وجبة، يرجى كتابة ذلك في ملاحظات الواتساب وسيتم إضافة ١٠ جنيه للسعر.</small></div>
-    </div>
-  </div>
-
-  <div class="group-title">وجديات وعروض الويك إند (خميس، جمعة، سبت)</div>
-  <div class="category-banner">
-    <img src="mixed-grill.jpg" alt="عروض">
-  </div>
-  <div class="row-list">
-    <div class="row-item">
-      <div class="row-name">طبق الباشا بيه ميل</div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('طبق الباشا بيه ميل لحمة', 40)">لحمة <b>٤٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('طبق الباشا بيه ميل فراخ', 40)">فراخ <b>٤٠ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name">جوز حمام بلدي مشوي</div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('جوز حمام بلدي مشوي', 320)">إضافة <b>٣٢٠ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name"><span class="note-tag">عرض الويك إند</span> عرض برجر سنجل <small>برجر ١٥٠ج + بيج بيبسي + بطاطس</small></div>
-      <div class="row-chips">
-        <button class="row-chip flash" onclick="addToCart('عرض برجر سنجل', 99)">إضافة العرض <b>٩٩ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name"><span class="note-tag">عرض الويك إند</span> عرض برجر دبل <small>برجر دبل ٣٠٠ج + بطاطس + بيج بيبسي</small></div>
-      <div class="row-chips">
-        <button class="row-chip flash" onclick="addToCart('عرض برجر دبل', 150)">إضافة العرض <b>١٥٠ ج</b></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="group-title">الخلطات النيئة والتسويات</div>
-  <div class="category-banner">
-    <img src="wagdi-platter.jpg" alt="خلطات">
-  </div>
-  <div class="row-list">
-    <div class="row-item">
-      <div class="row-name">خلطات نيئة (بالكيلو)</div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('كيلو خلطة حواوشي نيئة', 140)">حواوشي <b>١٤٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('كيلو خلطة كفتة وجدي نيئة', 240)">كفتة وجدي <b>٢٤٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('كيلو خلطة كفتة ضاني نيئة', 350)">كفتة ضاني <b>٣٥٠ ج</b></button>
-      </div>
-    </div>
-    <div class="row-item">
-      <div class="row-name">أسعار التسويات الخارجية <small>يرجى إرسال اللحوم قبلها بوقت كافي</small></div>
-      <div class="row-chips">
-        <button class="row-chip" onclick="addToCart('تسوية فرخة', 40)">تسوية الفرخة <b>٤٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('تسوية كيلو كفتة', 40)">تسوية كيلو كفتة <b>٤٠ ج</b></button>
-        <button class="row-chip" onclick="addToCart('تسوية كيلو حواوشي', 50)">تسوية كيلو حواوشي <b>٥٠ ج</b></button>
-      </div>
-    </div>
-  </div>
-
-</section>
-
-<footer>
-  <div class="foot-grid">
-    <div class="foot-col foot-brand">
-      <div class="brand-name" style="color:var(--ember-2); font-family:'Lalezar', sans-serif;">مطعم وجدي</div>
-      <p style="margin-top:10px;">أصل المشويات والأكل البيتي.<br>مواعيد العمل: من 12 ظهراً حتى 4 فجراً.</p>
-    </div>
-    <div class="foot-col">
-      <h4>للطلب والاستفسار</h4>
-      <p>📞 01061848486 (متاح دفع فودافون كاش)</p>
-      <p>💬 01276177393 (واتس آب للطلبات)</p>
-    </div>
-    <div class="foot-col">
-      <h4>العنوان</h4>
-      <p>📍 كفر هلال: أمام الحاج محمد عابدين حجازى شيخ البلد</p>
-    </div>
-  </div>
-  <div class="foot-bottom">
-    &copy; 2026 مطعم وجدي. جميع الحقوق محفوظة.
-  </div>
-</footer>
-
-<!-- Floating Mobile Cart Button -->
-<button class="floating-cart" onclick="openCart()">
-  🛒
-  <span class="cart-count" id="cartCountFloating">0</span>
-</button>
-
-<!-- ================= CART DRAWER (السلة) ================= -->
-<div class="overlay" id="overlay" onclick="closeCart()"></div>
-<div class="drawer" id="cartDrawer">
-  <div class="drawer-head">
-    <h3>🛒 سلة الطلبات</h3>
-    <button class="close-btn" onclick="closeCart()">×</button>
-  </div>
-  
-  <div class="drawer-items" id="cartItems">
-    <div class="empty-cart">السلة فارغة حالياً. اضغط على أي سعر في المنيو لإضافة الطلب.</div>
-  </div>
-  
-  <div class="drawer-foot">
-    <div class="total-row">
-      <span>مجموع الطلبات:</span>
-      <span id="subtotal">0 ج</span>
-    </div>
-    <div class="total-row" style="color: var(--ember-2);">
-      <span>خدمة التوصيل:</span>
-      <span>10 ج</span>
-    </div>
-    <div class="total-row grand">
-      <span>الإجمالي المطلوب:</span>
-      <b id="grandTotal">0 ج</b>
-    </div>
-    
-    <div class="field">
-      <input type="text" id="customerName" placeholder="الاسم (مثال: محمد أحمد)">
-    </div>
-    <div class="field">
-      <input type="tel" id="customerPhone" placeholder="رقم الهاتف للتواصل (مهم جداً)">
-    </div>
-    <div class="field">
-      <input type="text" id="customerAddress" placeholder="العنوان بالتفصيل ليتم التوصيل (مهم جداً)">
-    </div>
-    <div class="field">
-      <input type="text" id="customerNotes" placeholder="أي ملاحظات إضافية؟ (اختياري)">
-    </div>
-    
-    <button class="wa-btn" onclick="sendToWhatsApp()">إرسال الأوردر واتساب 💬</button>
-  </div>
+:root{--charcoal:#15110D;--charcoal-2:#211A14;--ember:#E2632A;--ember-2:#FF7A3D;--saffron:#E3A73B;--cream:#F6ECDC;--cream-dim:#C9BCA6;--line:rgba(246,236,220,.14);--herb:#6B8A54}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--charcoal);color:var(--cream);font-family:'Almarai',Tahoma,sans-serif;overflow-x:hidden;line-height:1.6}
+h1,h2,h3,.display{font-family:'Lalezar','Almarai',sans-serif;font-weight:400}
+img{max-width:100%;display:block}button,input{font-family:inherit}
+.working-hours{background:var(--ember);color:var(--charcoal);text-align:center;padding:6px;font-weight:800;font-size:14px}
+header{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(21,17,13,.94);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px}.mark{width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--ember-2),var(--ember) 55%,#7a2f10);display:flex;align-items:center;justify-content:center;font-family:'Lalezar';font-size:16px;color:var(--charcoal)}
+.brand-name{font-family:'Lalezar';font-size:21px;line-height:1.1}.brand-sub{font-size:11px;color:var(--cream-dim)}
+.cart-btn{background:var(--saffron);color:var(--charcoal);border:0;border-radius:999px;padding:10px 16px;font-weight:800;font-size:14px;display:flex;gap:8px;align-items:center;cursor:pointer}
+.cart-count{background:var(--charcoal);color:var(--saffron);border-radius:50%;min-width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center}
+.flow .hero,.flow .gallery{display:none}.hero{position:relative;min-height:38vh;display:flex;align-items:flex-end;background:url('mixed-grill.jpg') center 30%/cover}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,17,13,.35),rgba(21,17,13,.6) 45%,var(--charcoal) 96%)}
+.hero-inner{position:relative;z-index:2;padding:40px 20px 36px;max-width:720px}
+.eyebrow{display:inline-block;font-size:13px;color:var(--saffron);border:1px solid rgba(227,167,59,.4);border-radius:999px;padding:5px 14px;margin-bottom:14px;background:rgba(227,167,59,.08)}
+.hero h1{font-size:clamp(46px,13vw,80px);line-height:1}.hero h1 span{color:var(--ember-2)}.hero p{color:var(--cream-dim);margin-top:12px;max-width:480px}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 40px}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}.gallery img{width:100%;height:100px;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+.cat{font-family:'Lalezar';font-size:22px;color:var(--saffron);margin:30px 0 12px;display:flex;align-items:center;gap:10px}.cat::after{content:'';flex:1;height:1px;background:var(--line)}
+.note{background:rgba(227,167,59,.1);border:1px solid rgba(227,167,59,.3);border-radius:10px;padding:10px 12px;margin:8px 0;font-size:14px;line-height:1.7}
+.item{background:var(--charcoal-2);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}.item.off{opacity:.55}.iname{font-weight:800;font-size:16px;margin-bottom:10px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{display:inline-flex;gap:8px;align-items:center;min-height:44px;padding:8px 12px;border:1px solid var(--line);background:rgba(255,255,255,.05);border-radius:10px;font-size:14px;font-weight:700;color:var(--cream);cursor:pointer}
+.opt .p{color:var(--saffron);font-family:'Lalezar';font-size:16px;font-weight:400}.opt.on{background:var(--ember);border-color:var(--ember);color:var(--charcoal)}.opt.on .p{color:var(--charcoal)}.opt:disabled{cursor:not-allowed;opacity:.5}
+.p{direction:rtl;unicode-bidi:isolate;white-space:nowrap}.ltr{direction:ltr;unicode-bidi:isolate;font-weight:800;font-size:18px}
+.bar{position:sticky;bottom:0;background:var(--charcoal);border-top:1px solid var(--line);padding:12px 0;margin-top:16px}
+.row{display:flex;justify-content:space-between;gap:16px;padding:6px 0}.total{border-top:1px solid var(--line);font-weight:800;margin-top:6px;padding-top:10px}.total .p{color:var(--saffron);font-family:'Lalezar';font-size:22px;font-weight:400}
+.primary{display:block;width:100%;text-align:center;text-decoration:none;min-height:50px;margin-top:12px;border:0;border-radius:10px;background:var(--ember);color:var(--charcoal);font-size:16px;font-weight:800;cursor:pointer;line-height:50px}
+.wa{background:#25D366;color:#fff}
+.ghost{display:block;width:100%;min-height:46px;margin-top:8px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--cream);font-size:15px;cursor:pointer}
+.line{border-bottom:1px dashed var(--line);padding:12px 0}.ctl{display:flex;align-items:center;gap:12px;margin-top:8px}
+.qty{width:44px;height:44px;border:1px solid var(--line);border-radius:8px;background:var(--charcoal-2);color:var(--cream);font-size:20px;cursor:pointer}.qn{min-width:24px;text-align:center;font-weight:800}.lt{margin-inline-start:auto;color:var(--saffron);font-family:'Lalezar';font-size:18px}
+.seg{display:flex;gap:8px;margin:16px 0}.seg button{flex:1;min-height:48px;padding:6px;border:1px solid var(--line);background:var(--charcoal-2);border-radius:10px;color:var(--cream);font-size:14px;font-weight:700;cursor:pointer}.seg button.on{background:var(--ember);border-color:var(--ember);color:var(--charcoal)}
+label{display:block;margin:12px 0}label span{display:block;font-size:14px;color:var(--cream-dim);margin-bottom:4px}
+input{width:100%;min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:16px;background:var(--charcoal-2);color:var(--cream);outline:none}input:focus{border-color:var(--saffron)}
+.err{color:#ff7b72;margin:8px 0}.pv{margin-top:16px;border:1px solid var(--saffron);border-radius:12px;padding:12px;background:var(--charcoal-2)}.pv pre{white-space:pre-wrap;font:inherit;margin:8px 0 0;color:var(--cream)}
+.cpbtn{display:inline-block;margin-top:8px;padding:10px 16px;border:1px solid var(--saffron);border-radius:10px;background:transparent;color:var(--saffron);font-weight:800;font-size:14px;cursor:pointer}
+.step{display:none}.step.on{display:block}
+footer{border-top:1px solid var(--line);padding:30px 16px;background:var(--charcoal-2);text-align:center;color:var(--cream-dim);font-size:14px;line-height:2}footer h4{font-family:'Lalezar';color:var(--saffron);font-size:18px;font-weight:400}
+</style></head><body>
+<div class="working-hours">مواعيد العمل يومياً: من 12 ظهراً حتى 4 فجراً</div>
+<header><div class="brand"><div class="mark">وجدي</div><div><div class="brand-name">مطعم وجدي</div><div class="brand-sub">مشويات &amp; أكل بيتي صحي</div></div></div>
+<button class="cart-btn" onclick="cartTop()">السلة <span class="cart-count" id="cartCountTop">0</span></button></header>
+<section class="hero"><div class="hero-inner"><div class="eyebrow">عالفحم من قلب الحتة</div><h1>مطعم <span>وجدي</span></h1><p>أشهى المشويات الطازجة على الفحم، تتبيلة مخصوصة وأكل بيتي صحي. اختار صنفك واطلب، والطلب بيوصل للكاشير على واتساب.</p></div></section>
+<div class="wrap">
+<div class="gallery"><img src="mixed-grill.jpg" alt="مشويات وجدي"><img src="wagdi-platter.jpg" alt="صينية مشويات"><img src="wagdi-platter (1).jpg" alt="صينية وجدي"></div>
+<section class="step on" id="s1"><div id="menu"></div><div class="bar"><div class="row"><span id="cnt">0 صنف</span><span class="p" id="tot">0 ج</span></div><button class="primary" onclick="go(2)">مراجعة الطلب</button><div class="err" id="e1"></div></div></section>
+<section class="step" id="s2"><h2 class="cat">طلبك</h2><div id="cart"></div>
+<div class="seg"><button id="mDel" class="on" onclick="setMode('delivery')">توصيل</button><button id="mPick" onclick="setMode('pickup')">استلام من المطعم</button></div>
+<label><span>الاسم</span><input id="name"></label><label><span>رقم التليفون (مطلوب)</span><input id="phone" type="tel" inputmode="tel"></label>
+<label id="addrBox"><span>العنوان بالتفصيل (مطلوب للتوصيل)</span><input id="addr"></label><label><span>ملاحظات (اختياري)</span><input id="notes"></label>
+<div class="err" id="e2"></div><button class="primary" onclick="go(3)">التالي: الدفع</button><button class="ghost" onclick="go(1)">رجوع للمنيو</button></section>
+<section class="step" id="s3"><h2 class="cat">الدفع</h2>
+<div class="seg"><button id="pCash" class="on" onclick="setPay('cash')">كاش عند الاستلام</button><button id="pTr" onclick="setPay('transfer')">تحويل فودافون كاش</button></div>
+<div class="note" id="tWait" style="display:none">إجمالي الطلبات <span class="p" id="subw"></span> ولسه التوصيل لم يتحدد، فالمبلغ الكامل غير نهائي. <b>لا تحوّل الآن.</b> ابعت الطلب والكاشير هيرد عليك بالإجمالي الكامل ورقم التحويل.</div>
+<div id="tNow" style="display:none"><div class="note">حوّل <span class="p" id="tamt"></span> على فودافون كاش: <span class="ltr" id="tnum"></span><div><button class="cpbtn" onclick="cp()">نسخ الرقم</button> <span id="cpst"></span></div><div>الدفع بيتأكد من الكاشير بعد وصول الفلوس فعلاً.</div></div>
+<label><span>المبلغ اللي حولته (ج)</span><input id="paid" inputmode="numeric"></label><label><span>آخر 4 أرقام من رقم العملية أو رقم المحفظة اللي حولت منها</span><input id="ref"></label></div>
+<div class="note">الطلب مش بيتبعت تلقائي: بعد الضغط هتشوف رسالة جاهزة، وبعدها بتفتح واتساب الكاشير وإنت بتضغط إرسال.</div>
+<div class="err" id="e3"></div><button class="primary" onclick="build()">تجهيز رسالة واتساب للكاشير</button><button class="ghost" onclick="go(2)">رجوع</button>
+<div class="pv" id="pvbox" style="display:none"><b id="pvt"></b><pre id="pv"></pre><a class="primary wa" id="sendbtn" style="display:none" target="_blank" rel="noopener" href="#">فتح واتساب الكاشير</a></div></section>
 </div>
-
-<!-- ================= JAVASCRIPT ================= -->
+<footer><h4>مطعم وجدي</h4>أصل المشويات والأكل البيتي. مواعيد العمل: من 12 ظهراً حتى 4 فجراً.<br>للطلب والاستفسار: 01061848486 (متاح دفع فودافون كاش) | واتس آب الطلبات: 01276177393<br>كفر هلال: أمام الحاج محمد عابدين حجازى شيخ البلد<br><small>© 2026 مطعم وجدي</small></footer>
 <script>
-  let cart = [];
-  const DELIVERY_FEE = 10;
-  const WA_NUMBER = "201276177393"; // رقم المطعم
-
-  function addToCart(name, price) {
-    let item = cart.find(i => i.name === name);
-    if (item) {
-      item.qty++;
-    } else {
-      cart.push({ name: name, price: price, qty: 1 });
-    }
-    updateCart();
-    openCart(); // نفتح السلة عشان يشوف إنه انضاف
-  }
-
-  function changeQty(name, delta) {
-    let item = cart.find(i => i.name === name);
-    if (item) {
-      item.qty += delta;
-      if (item.qty <= 0) {
-        cart = cart.filter(i => i.name !== name);
-      }
-      updateCart();
-    }
-  }
-
-  function removeFromCart(name) {
-    cart = cart.filter(i => i.name !== name);
-    updateCart();
-  }
-
-  function updateCart() {
-    let itemsHtml = '';
-    let subtotal = 0;
-    let count = 0;
-
-    cart.forEach(item => {
-      let itemTotal = item.price * item.qty;
-      subtotal += itemTotal;
-      count += item.qty;
-
-      itemsHtml += `
-      <div class="cart-item">
-        <div class="ci-info">
-          <h4>${item.name}</h4>
-          <div class="ci-price">${item.price * item.qty} ج</div>
-        </div>
-        <div class="ci-controls">
-          <button class="qty-btn" onclick="changeQty('${item.name}', 1)">+</button>
-          <span style="font-weight:bold; width:20px; text-align:center;">${item.qty}</span>
-          <button class="qty-btn" onclick="changeQty('${item.name}', -1)">-</button>
-          <button class="remove-x" onclick="removeFromCart('${item.name}')">حذف 🗑️</button>
-        </div>
-      </div>`;
-    });
-
-    // Update HTML elements
-    const cartItemsDiv = document.getElementById('cartItems');
-    if (cart.length === 0) {
-      cartItemsDiv.innerHTML = '<div class="empty-cart">السلة فارغة حالياً. اضغط على أي سعر في المنيو لإضافة الطلب.</div>';
-    } else {
-      cartItemsDiv.innerHTML = itemsHtml;
-    }
-
-    document.getElementById('subtotal').innerText = subtotal + ' ج';
-    document.getElementById('cartCountTop').innerText = count;
-    document.getElementById('cartCountFloating').innerText = count;
-
-    let grandTotal = cart.length > 0 ? subtotal + DELIVERY_FEE : 0;
-    document.getElementById('grandTotal').innerText = grandTotal + ' ج';
-  }
-
-  function openCart() {
-    document.getElementById('cartDrawer').classList.add('open');
-    document.getElementById('overlay').classList.add('open');
-  }
-
-  function closeCart() {
-    document.getElementById('cartDrawer').classList.remove('open');
-    document.getElementById('overlay').classList.remove('open');
-  }
-
-  function sendToWhatsApp() {
-    if (cart.length === 0) {
-      alert('السلة فارغة! برجاء اختيار طلباتك أولاً.');
-      return;
-    }
-
-    let name = document.getElementById('customerName').value.trim();
-    let phone = document.getElementById('customerPhone').value.trim();
-    let address = document.getElementById('customerAddress').value.trim();
-    let notes = document.getElementById('customerNotes').value.trim();
-
-    if (!phone) {
-      alert('برجاء كتابة رقم الهاتف لسهولة التواصل مع المندوب.');
-      return;
-    }
-
-    if (!address) {
-      alert('برجاء كتابة العنوان بالتفصيل لإتمام الطلب.');
-      return;
-    }
-
-    // بناء رسالة الواتساب
-    let text = `*طلب جديد (مطعم وجدي)* 🍔🔥\n`;
-    text += `*الوقت:* ${new Date().toLocaleTimeString('ar-EG', {hour: 'numeric', minute:'numeric', hour12: true})}\n\n`;
-    text += `*👤 الاسم:* ${name || 'غير محدد'}\n`;
-    text += `*📞 رقم الهاتف:* ${phone}\n`;
-    text += `*📍 العنوان:* ${address}\n\n`;
-    text += `*🛒 تفاصيل الطلب:*\n`;
-    
-    let subtotal = 0;
-    cart.forEach(item => {
-      let totalItemPrice = item.price * item.qty;
-      text += `▫️ ${item.qty} × ${item.name} (${totalItemPrice} ج)\n`;
-      subtotal += totalItemPrice;
-    });
-
-    if (notes) {
-      text += `\n*📝 ملاحظات:* ${notes}\n`;
-    }
-
-    let grandTotal = subtotal + DELIVERY_FEE;
-    text += `\n-------------------\n`;
-    text += `*الطلبات:* ${subtotal} ج\n`;
-    text += `*التوصيل:* ${DELIVERY_FEE} ج\n`;
-    text += `*💰 الإجمالي المطلوب:* *${grandTotal} ج*\n`;
-
-    // توجيه العميل
-    let waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
-    window.open(waUrl, '_blank');
-  }
-</script>
-
-</body>
-</html>
+const MENU={"notices": ["هذه الأسعار غير شاملة الإضافات"], "categories": [{"name": "الفراخ المشوية", "items": [{"name": "فرخة شيش", "options": [{"label": "فرخة كاملة (وزن فوق الـ2 كيلو)", "price": 300, "star": 0}, {"label": "نص فرخة", "price": 150, "star": 0}, {"label": "ربع صدر", "price": 85, "star": 0}, {"label": "ربع ورك", "price": 75, "star": 0}]}, {"name": "فرخة تكا (الخلطة والأرز)", "options": [{"label": "فرخة", "price": 370, "star": 2}, {"label": "نص فرخة", "price": 170, "star": 0}, {"label": "ربع صدر بالأرز", "price": 100, "star": 1}, {"label": "ربع ورك", "price": 85, "star": 0}]}]}, {"name": "اللحوم المشوية", "items": [{"name": "لحمة استيك", "options": [{"label": "كيلو", "price": 750, "star": 0}, {"label": "نص كيلو", "price": 380, "star": 0}, {"label": "ربع كيلو", "price": 190, "star": 1}]}, {"name": "الكباب الضاني", "options": [{"label": "كيلو", "price": 900, "star": 0}, {"label": "نص كيلو", "price": 450, "star": 0}, {"label": "ربع كيلو", "price": 225, "star": 0}]}]}, {"name": "الكفتة والطرب", "items": [{"name": "كفتة وجدي", "options": [{"label": "كيلو", "price": 320, "star": 0}, {"label": "نص كيلو", "price": 160, "star": 0}, {"label": "تلت كيلو", "price": 120, "star": 1}, {"label": "ربع كيلو", "price": 80, "star": 0}, {"label": "تمن كيلو", "price": 40, "star": 0}]}, {"name": "كفتة ضاني", "options": [{"label": "كيلو", "price": 440, "star": 0}, {"label": "نص كيلو", "price": 220, "star": 0}, {"label": "تلت كيلو", "price": 170, "star": 0}, {"label": "ربع كيلو", "price": 110, "star": 0}]}, {"name": "طرب ضاني", "options": [{"label": "كيلو", "price": 500, "star": 0}, {"label": "نص كيلو", "price": 250, "star": 0}, {"label": "تلت كيلو", "price": 190, "star": 0}, {"label": "ربع كيلو", "price": 125, "star": 1}, {"label": "تمن كيلو", "price": 70, "star": 0}]}, {"name": "مشكل (كفتة وجدي + طرب ضاني)", "options": [{"label": "كيلو", "price": 420, "star": 0}, {"label": "نص كيلو", "price": 210, "star": 0}, {"label": "ربع كيلو", "price": 110, "star": 1}]}]}, {"name": "الساندوتشات", "items": [{"name": "ساندوتش كفتة كندوز", "options": [{"label": "أبو 20 (55 جم)", "price": 20, "star": 0}, {"label": "أبو 30 (80 جم)", "price": 30, "star": 1}, {"label": "أبو 40 (120 جم)", "price": 40, "star": 0}]}, {"name": "ساندوتش كفتة ضاني", "options": [{"label": "أبو 40 (80 جم)", "price": 40, "star": 1}, {"label": "أبو 60 (125 جم)", "price": 60, "star": 0}]}, {"name": "ساندوتش الحواوشي", "options": [{"label": "أبو 20 (80 جم)", "price": 20, "star": 0}, {"label": "أبو 30 (120 جم)", "price": 30, "star": 1}]}, {"name": "حواوشي ميكس (فراخ، طرب، جبنة)", "options": [{"label": "120 جم", "price": 35, "star": 1}]}, {"name": "حواوشي سوبر ميكس (فراخ، طرب، جبنة)", "options": [{"label": "180 جم", "price": 50, "star": 1}]}, {"name": "ساندوتش الكبدة", "options": [{"label": "عادي", "price": 20, "star": 0}]}, {"name": "ساندوتش الكبدة بالطرب (حواوشي)", "options": [{"label": "عادي", "price": 30, "star": 1}]}, {"name": "ساندوتش الكبدة المشوية", "options": [{"label": "عادي", "price": 30, "star": 1}]}, {"name": "ساندوتش الطرب الضاني", "options": [{"label": "عادي", "price": 35, "star": 0}]}, {"name": "طبق الأرز", "options": [{"label": "20", "price": 20, "star": 1}, {"label": "30", "price": 30, "star": 1}, {"label": "40", "price": 40, "star": 1}]}]}, {"name": "الوجبات", "note": "عند تبديل الورك بصدر في الوجبة يضاف 10 جنيه على سعر الوجبة", "items": [{"name": "ربع كفتة وجدي أو ربع فراخ ورك + أرز", "options": [{"label": "ربع كفتة وجدي + أرز", "price": 90, "star": 0}, {"label": "ربع فراخ ورك + أرز", "price": 90, "star": 0}, {"label": "ربع فراخ صدر + أرز (+10)", "price": 100, "star": 0}]}, {"name": "ربع فراخ ورك + تمن كفتة وجدي + أرز", "options": [{"label": "بالورك", "price": 120, "star": 0}, {"label": "بالصدر (+10)", "price": 130, "star": 0}]}, {"name": "ربع فراخ ورك + تمن كفتة + 1 حواوشي ميكس", "options": [{"label": "بالورك", "price": 160, "star": 1}, {"label": "بالصدر (+10)", "price": 170, "star": 0}]}, {"name": "الجامبو (ربع فراخ ورك + تمن كفتة + تمن طرب + حواوشي ميكس + أرز)", "options": [{"label": "بالورك", "price": 220, "star": 0}, {"label": "بالصدر (+10)", "price": 230, "star": 0}]}]}, {"name": "وجديات", "items": [{"name": "طبق الباشا بيه", "options": [{"label": "ميل لحمة", "price": 40, "star": 0}, {"label": "ميل بالفراخ", "price": 40, "star": 0}]}, {"name": "جوز حمام بلدي مشوي", "options": [{"label": "جوز", "price": 320, "star": 1}]}]}, {"name": "برجر (الخميس والجمعة والسبت فقط)", "items": [{"name": "برجر 140 جم + بيج بيبسي + بطاطس", "options": [{"label": "وجبة", "price": 99, "star": 1}], "days": [4, 5, 6]}, {"name": "برجر دبل 300 جم + بطاطس + بيج بيبسي", "options": [{"label": "وجبة", "price": 150, "star": 2}], "days": [4, 5, 6]}]}, {"name": "أسعار الكيلو (الخلطة النية)", "items": [{"name": "خلطة الحواوشي", "options": [{"label": "كيلو", "price": 140, "star": 0}]}, {"name": "خلطة كفتة وجدي", "options": [{"label": "كيلو", "price": 240, "star": 0}]}, {"name": "خلطة الكفتة الضاني", "options": [{"label": "كيلو", "price": 350, "star": 0}]}]}, {"name": "أسعار التسوية", "note": "التسويات تأتي قبلها بوقت كافي", "items": [{"name": "تسوية الفرخة", "options": [{"label": "للفرخة", "price": 40, "star": 0}]}, {"name": "تسوية كيلو الكفتة", "options": [{"label": "للكيلو", "price": 40, "star": 0}]}, {"name": "تسوية كيلو الحواوشي", "options": [{"label": "للكيلو", "price": 50, "star": 0}]}]}]};
+const CONFIG={cashierWa:"201276177393",payNumber:"01061848486",payLabel:"فودافون كاش",deliveryFee:null,PREVIEW:false};
+let cart=[],mode='delivery',pay='cash',lastMsg='';const $=i=>document.getElementById(i);
+const q=new URLSearchParams(location.search).get('day');
+const day=q!==null?+q:new Date(new Date().toLocaleString('en-US',{timeZone:'Africa/Cairo'})).getDay();
+const isDel=()=>mode==='delivery',feeKnown=()=>!isDel()||CONFIG.deliveryFee!==null;
+const sub=()=>cart.reduce((s,l)=>s+l.p*l.q,0),fee=()=>isDel()&&CONFIG.deliveryFee?CONFIG.deliveryFee:0,total=()=>sub()+fee();
+function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){let h=MENU.notices.map(n=>`<div class="note">${esc(n)}</div>`).join('');
+ MENU.categories.forEach(c=>{h+=`<h2 class="cat">${esc(c.name)}</h2>`+(c.note?`<div class="note">${esc(c.note)}</div>`:'');
+  c.items.forEach(it=>{const off=it.days&&!it.days.includes(day);h+=`<div class="item${off?' off':''}"><div class="iname">${esc(it.name)}</div>${off?'<div class="note">متاح الخميس والجمعة والسبت فقط</div>':''}<div class="opts">`+it.options.map(o=>{const k=it.name+' - '+o.label,n=(cart.find(l=>l.k===k)||{q:0}).q;return `<button class="opt${n?' on':''}" ${off?'disabled':''} data-k="${esc(k)}" data-p="${o.price}"><span>${esc(o.label)}</span><span class="p">${o.price} ج</span>${n?`<b>× ${n}</b>`:''}</button>`}).join('')+'</div></div>'})});
+ $('menu').innerHTML=h;document.querySelectorAll('.opt[data-k]').forEach(b=>b.onclick=()=>add(b.dataset.k,+b.dataset.p,1));upd()}
+function add(k,p,d){let i=cart.find(l=>l.k===k);if(!i){if(d>0)cart.push({k,p,q:1})}else{i.q+=d;if(i.q<=0)cart=cart.filter(l=>l!==i)}render();if($('s2').classList.contains('on'))cartHtml()}
+function upd(){$('cartCountTop').textContent=cart.reduce((s,l)=>s+l.q,0);$('cnt').textContent=cart.reduce((s,l)=>s+l.q,0)+' صنف';$('tot').textContent=sub()+' ج'}
+function cartHtml(){$('cart').innerHTML=cart.map((l,i)=>`<div class="line"><div>${esc(l.k)}</div><div class="ctl"><button class="qty" aria-label="زيادة" onclick="add(cart[${i}].k,0,1)">+</button><span class="qn">${l.q}</span><button class="qty" aria-label="نقص" onclick="add(cart[${i}].k,0,-1)">−</button><span class="p lt">${l.p*l.q} ج</span></div></div>`).join('')+
+ `<div class="row"><span>الطلبات</span><span class="p">${sub()} ج</span></div><div class="row"><span>التوصيل</span>${isDel()?(CONFIG.deliveryFee!==null?`<span class="p">${fee()} ج</span>`:'<span>يحدده الكاشير</span>'):'<span class="p">0 ج</span>'}</div><div class="row total"><span>${feeKnown()?'الإجمالي':'إجمالي الطلبات (بدون التوصيل)'}</span><span class="p">${feeKnown()?total():sub()} ج</span></div>`}
+function setMode(m){mode=m;$('mDel').className=m=='delivery'?'on':'';$('mPick').className=m=='pickup'?'on':'';$('addrBox').style.display=m=='delivery'?'block':'none';cartHtml()}
+function setPay(p){pay=p;$('pCash').className=p=='cash'?'on':'';$('pTr').className=p=='transfer'?'on':'';payUi()}
+function payUi(){const tr=pay=='transfer';$('tWait').style.display=tr&&!feeKnown()?'block':'none';$('tNow').style.display=tr&&feeKnown()?'block':'none';$('subw').textContent=sub()+' ج';$('tamt').textContent=total()+' ج';$('tnum').textContent=CONFIG.payNumber}
+function go(n){['e1','e2','e3'].forEach(x=>$(x).textContent='');
+ if(n==2&&!cart.length)return $('e1').textContent='السلة فاضية';
+ if(n==3){if(!$('phone').value.trim())return $('e2').textContent='اكتب رقم التليفون';if(isDel()&&!$('addr').value.trim())return $('e2').textContent='اكتب العنوان بالتفصيل';payUi()}
+ document.body.classList.toggle('flow',n>1);document.querySelectorAll('.step').forEach(s=>s.classList.remove('on'));$('s'+n).classList.add('on');$('pvbox').style.display='none';if(n==2)cartHtml();window.scrollTo(0,0)}
+function cp(){const t=CONFIG.payNumber;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>$('cpst').textContent='تم النسخ',()=>$('cpst').textContent='انسخ الرقم يدوياً')}
+function build(){if(pay=='transfer'&&feeKnown()&&!$('paid').value.trim())return $('e3').textContent='اكتب المبلغ اللي حولته';
+ let t=`*طلب جديد - مطعم وجدي*\n*${isDel()?'توصيل':'استلام'}*\nالاسم: ${$('name').value||'-'}\nالتليفون: ${$('phone').value}\n`;if(isDel())t+=`العنوان: ${$('addr').value}\n`;
+ t+=`\nالطلب:\n`+cart.map(l=>`- ${l.q} × ${l.k} = ${l.p*l.q} ج`).join('\n')+`\n\nالطلبات: ${sub()} ج\nالتوصيل: ${isDel()?(CONFIG.deliveryFee!==null?fee()+' ج':'يحدده الكاشير'):'لا يوجد'}\n`;
+ t+=feeKnown()?`*الإجمالي: ${total()} ج*\n`:`*إجمالي الطلبات بدون التوصيل: ${sub()} ج*\n`;if($('notes').value)t+=`ملاحظات: ${$('notes').value}\n`;
+ if(pay=='cash')t+=`\nالدفع: كاش عند الاستلام\n`;else if(feeKnown())t+=`\nالدفع: تحويل ${CONFIG.payLabel} - في انتظار تأكيد الكاشير\nالمبلغ المحوّل حسب العميل: ${$('paid').value} ج\nمرجع العملية: ${$('ref').value||'-'}\n`;else t+=`\nالدفع: تحويل ${CONFIG.payLabel} بعد ما الكاشير يؤكد الإجمالي مع التوصيل (لم يتم أي تحويل)\n`;
+ lastMsg=t;$('pv').textContent=t;$('pvt').textContent=CONFIG.PREVIEW?'معاينة فقط':'راجع رسالة الطلب، وبعدها اضغط الزر الأخضر عشان تفتح واتساب الكاشير وتضغط إرسال:';$('sendbtn').href='https://wa.me/'+CONFIG.cashierWa+'?text='+encodeURIComponent(t);$('sendbtn').style.display=CONFIG.PREVIEW?'none':'block';$('pvbox').style.display='block';$('pvbox').scrollIntoView()}
+render();
+function cartTop(){go(cart.length?2:1)}
+</script></body></html>
